@@ -2,6 +2,10 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 
+# Get Data ==============
+from pycaret.datasets import get_data
+dataset = get_data('credit')
+
 # Page Config ==============
 st.set_page_config(
     page_title=None, 
@@ -17,8 +21,7 @@ st.sidebar.title('Vektir Labs')
 st.sidebar.header('Pycaret Tutorial')
 st.sidebar.write('''
                  This labs is an example of the Machine Learning 
-                 Binary Classification Algorithm using Pycaret!
-                 
+                 Binary Classification Algorithm using Pycaret!               
                  ''')
 with st.sidebar.expander('Reference Links'):
     st.markdown('Pycaret')
@@ -51,6 +54,61 @@ st.write('''
           of the article or the usefulness to the user.
          ''')
 
+# Get Data & Preview  ============
+st.subheader('Get Data')
+st.write('''
+         For this example we will be using one of Pycaret's build in datasets. 
+         ''')
+st.code('''
+# Get example credit data 
+from pycaret.datasets import get_data
+dataset = get_data('credit')
+        ''')
+# Show the dataframe head ============
+st.dataframe(dataset.head())
 
+# Sample 5% of data to be used as unseen data ============
+data = dataset.sample(frac=0.95, random_state=786)
+data_unseen = dataset.drop(data.index)
+data.reset_index(inplace=True, drop=True)
+data_unseen.reset_index(inplace=True, drop=True)
 
+# print the revised shape ============
+print('Data for Modeling: ' + str(data.shape))
+print('Unseen Data For Predictions: ' + str(data_unseen.shape))
 
+st.write('''
+         In order to demonstrate the use of the predict_model function on unseen data, 
+         a sample of 1200 records (~5%) has been withheld from the original dataset to 
+         be used for predictions at the end. This should not be confused with a train-test-split, 
+         as this particular split is performed to simulate a real-life scenario. Another way 
+         to think about this is that these 1200 customers are not available at the time of training 
+         of machine learning models.
+         ''')
+
+st.code('''
+# Sample 5% of data to be used as unseen data
+data = dataset.sample(frac=0.95, random_state=786)
+data_unseen = dataset.drop(data.index)
+data.reset_index(inplace=True, drop=True)
+data_unseen.reset_index(inplace=True, drop=True)
+
+# Print the revised shape
+print('Data for Modeling: ' + str(data.shape))
+print('Unseen Data For Predictions: ' + str(data_unseen.shape))
+
+# Data for Modeling: (22800, 24)
+# Unseen Data For Predictions: (1200, 24)        
+''')
+
+st.write('The next step is to initialize our setup function')
+
+# Initialize setup ============
+from pycaret.classification import *
+# s = setup(data = data, target = 'default', session_id=123)
+
+st.code('''
+# Initialize setup ============
+from pycaret.classification import *
+s = setup(data = data, target = 'default', session_id=123)
+''')
