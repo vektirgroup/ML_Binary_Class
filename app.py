@@ -117,9 +117,64 @@ st.write('''
          a highlighted table of models that it automatically comapred for 
          us .
          ''')
-
 st.code('''
     # Compare Models ============
     best_model = compare_models()
 ''')
 st.image('img/compare_models.png', caption='Pycaret -> compare_models()')
+
+# Select model ============
+st.write('''
+         After reviewing the several different models we will choose the 
+         ridge regression model to further explore 
+         ''')
+st.code('''
+    # Create Models ============
+    rdg_mdl = create_model('ridge')
+''')
+st.image('img/ridge_classifier_model.png', caption='Pycaret -> create_model("ridge")')
+
+# Tune model ============
+st.write('''
+    After creating the model we can easily tune the model using tune_model() 
+    ''')
+st.code('''
+    # Tune model
+    tuned_rdg_mdl = tune_model(rdg_mdl)
+''')
+st.image('img/tuned.png', caption='Pycaret -> tune_model("model_name")')
+
+# Predict model ============
+st.write('''
+         Once the model has been tuned to your liking we can use the predict function to 
+         predict on the unseen data.
+         ''')
+st.code('''
+    # Predict model    
+    rdg_unseen_predictions = predict_model(final_rdg)
+''')
+st.image('img/predict model.png', caption='Pycaret -> predict_model("model_name")')
+
+
+# Finalize model ============
+st.write('''
+         After creating the model we can easily tune the model using tune_model() 
+         ''')
+st.code('''
+    #Finalize model    
+    final_rdg = finalize_model(rdg_mdl_tune);
+    print(final_rdg)
+''')
+st.image('img/finalize model.png', caption='Pycaret -> finalize_model("model_name")')
+
+
+# Save model ============
+st.write('''
+         Finally, after creating, tuning, predicting and finalizing the model we will
+         now save the model as a pickle file to be used later.
+         ''')
+st.code('''
+    # Save Model     
+    save_model(final_rdg,'final_reg_112521')
+''')
+st.image('img/saved_model.png', caption='Pycaret -> finalize_model("model_name")')
