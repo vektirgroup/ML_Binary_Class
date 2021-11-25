@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
+import plotly_express as px
 
 # Get Data ==============
 from pycaret.datasets import get_data
@@ -87,28 +88,40 @@ st.write('''
          ''')
 
 st.code('''
-# Sample 5% of data to be used as unseen data
-data = dataset.sample(frac=0.95, random_state=786)
-data_unseen = dataset.drop(data.index)
-data.reset_index(inplace=True, drop=True)
-data_unseen.reset_index(inplace=True, drop=True)
+    # Sample 5% of data to be used as unseen data
+    data = dataset.sample(frac=0.95, random_state=786)
+    data_unseen = dataset.drop(data.index)
+    data.reset_index(inplace=True, drop=True)
+    data_unseen.reset_index(inplace=True, drop=True)
 
-# Print the revised shape
-print('Data for Modeling: ' + str(data.shape))
-print('Unseen Data For Predictions: ' + str(data_unseen.shape))
+    # Print the revised shape
+    print('Data for Modeling: ' + str(data.shape))
+    print('Unseen Data For Predictions: ' + str(data_unseen.shape))
 
-# Data for Modeling: (22800, 24)
-# Unseen Data For Predictions: (1200, 24)        
+    # Data for Modeling: (22800, 24)
+    # Unseen Data For Predictions: (1200, 24)        
 ''')
 
 st.write('The next step is to initialize our setup function')
 
-# Initialize setup ============
-from pycaret.classification import *
-# s = setup(data = data, target = 'default', session_id=123)
+st.code('''
+    # Initialize setup ============
+    from pycaret.classification import *
+    s = setup(data = data, target = 'default', session_id=123)
+''')
+
+
+
+# Compare models ============
+st.write('''
+         Now that we have the data and our project setup we will use
+         compare model by running compare_models() function, it returns
+         a highlighted table of models that it autmatically comapred for 
+         us .
+         ''')
 
 st.code('''
-# Initialize setup ============
-from pycaret.classification import *
-s = setup(data = data, target = 'default', session_id=123)
+    # Compare Models ============
+    best_model = compare_models()
 ''')
+st.image('img/compare_models.png', caption='Pycaret -> compare_models()')
