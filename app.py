@@ -110,13 +110,11 @@ st.code('''
     s = setup(data = data, target = 'default', session_id=123)
 ''')
 
-
-
 # Compare models ============
 st.write('''
          Now that we have the data and our project setup we will use
          compare model by running compare_models() function, it returns
-         a highlighted table of models that it autmatically comapred for 
+         a highlighted table of models that it automatically comapred for 
          us .
          ''')
 
